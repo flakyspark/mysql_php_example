@@ -1,12 +1,10 @@
 <?php
-require_once __DIR__ . '/vendor/autoload.php';
+$conn = new mysqli('mysql', 'root', 'secret');
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
 
-use Tarantool\Client\Client;
-
-$client = Client::fromOptions([
-        'uri' => 'tarantool:3301'
-    ]);
-
-$result = $client->executeUpdate("DROP TABLE snapshot_verification_result");
+$conn->query('USE test');
+$conn->query('DROP TABLE snapshot_verification_result');
 
 echo 'Table dropped' . PHP_EOL;
